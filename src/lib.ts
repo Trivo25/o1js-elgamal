@@ -15,22 +15,19 @@ function modExp(base: Field, exponent: Field) {
 
     // we utilize the square and multiply algorithm
     // if the current bit = 0,
-    let isOne = start.and(bit.equals(Bool(false)));
-    let isZero = start.and(bit.equals(Bool(true)));
+    let isOne = start.and(bit.equals(false));
+    let isZero = start.and(bit.equals(true));
 
+    let square = n.square();
     // we choose what computation to apply next
     n = Circuit.switch([isOne, isZero, start.not()], Field, [
-      n.square(),
-      n.square().mul(base),
+      square,
+      square.mul(base),
       n,
     ]);
 
-    //
-    start = Circuit.if(
-      bit.equals(Bool(true)).and(start.not()),
-      Bool(true),
-      start
-    );
+    // toggle start to accumulate
+    start = Circuit.if(bit.equals(true).and(start.not()), Bool(true), start);
   }
 
   return n;
