@@ -1,6 +1,7 @@
 import { Bool, Circuit, Field } from 'snarkyjs';
-
-export { modExp, discreteLog };
+import { ElGamalFF } from './elgamal.js';
+import fs from 'fs';
+export { modExp, discreteLog, generateLookup, lookUp };
 
 function modExp(base: Field, exponent: Field) {
   let bits = exponent.toBits();
@@ -49,4 +50,34 @@ function discreteLog(a: Field, g: Field): Field {
     x = modExp(g, n);
   }
   return n;
+}
+
+/* function bigIntSqrt(value: bigint, k = 2n) {
+  if (value < 0n) {
+    throw 'negative number is not supported';
+  }
+
+  let o = 0n;
+  let x = value;
+  let limit = 100n;
+
+  while (x ** k !== k && x !== o && --limit) {
+    o = x;
+    x = ((k - 1n) * x + value / x ** (k - 1n)) / k;
+  }
+
+  return x;
+} */
+
+function generateLookup(n = 20000, path = 'lookup.json') {
+  let values: Record<string, string> = {};
+  for (let i = 0; i < n; i++) {
+    let a = modExp(ElGamalFF.G, Field(i));
+    values[a.toString()] = i.toString();
+  }
+  fs.writeFileSync('lookup.json', JSON.stringify(values, undefined, 2));
+}
+
+function lookUp(path = 'lookup.json', g: string): string {
+  return JSON.parse(fs.readFileSync(path).toString())[g];
 }
