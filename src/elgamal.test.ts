@@ -7,7 +7,7 @@ import {
   shutdown,
 } from 'snarkyjs';
 import { ElGamalECC, ElGamalFF } from './elgamal';
-import { modExp } from './lib';
+import { lookUp, modExp } from './lib';
 
 describe('ElGamal', () => {
   let sk: PrivateKey;
@@ -74,7 +74,7 @@ describe('ElGamal', () => {
       plain3.assertEquals(m3);
     });
 
-    it('Homomorphic properties should hold, m1*m2*m3', () => {
+    it('Multiplicative homomorphic properties should hold, m1*m2*m3', () => {
       const { pk, sk } = ElGamalFF.generateKeys();
 
       const m1 = Field(15);
@@ -101,7 +101,7 @@ describe('ElGamal', () => {
       plain4.assertEquals(m4);
     });
 
-    it('Homomorphic properties should hold, m1*m2', () => {
+    it('Additive homomorphic properties should hold, m1*m2', () => {
       const { pk, sk } = ElGamalFF.generateKeys();
 
       const m1 = Field(15);
@@ -119,7 +119,10 @@ describe('ElGamal', () => {
       plain1.assertEquals(gm1);
       plain2.assertEquals(gm2);
 
-      const m3 = gm1.mul(gm2);
+      const plain3 = ElGamalFF.decrypt(c1.mul(c2), sk);
+      let x = lookUp('lookup.json', plain3.toString());
+
+      m1.add(m2).assertEquals(x);
     });
   });
 });
