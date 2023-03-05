@@ -1,6 +1,6 @@
 import { Bool, Circuit, Field } from 'snarkyjs';
 
-export { modExp };
+export { modExp, discreteLog };
 
 function modExp(base: Field, exponent: Field) {
   let bits = exponent.toBits();
@@ -30,5 +30,23 @@ function modExp(base: Field, exponent: Field) {
     start = Circuit.if(bit.equals(true).and(start.not()), Bool(true), start);
   }
 
+  return n;
+}
+
+function discreteLogRec(a: Field, g: Field, n?: Field): Field {
+  n = n ?? Field(1);
+  let x = modExp(g, n);
+  if (x.equals(a).toBoolean()) return n;
+  else return discreteLogRec(a, g, n.add(1));
+}
+
+function discreteLog(a: Field, g: Field): Field {
+  let n = Field(1);
+  let x = modExp(g, n);
+
+  while (!x.equals(a).toBoolean()) {
+    n = n.add(1);
+    x = modExp(g, n);
+  }
   return n;
 }

@@ -36,7 +36,7 @@ class Cipher {
 }
 
 class ElGamalFF {
-  private static G = Field(
+  public static G = Field(
     '12418654782883325593414442427049395787963493412651469444558597405572177144507'
   );
 
