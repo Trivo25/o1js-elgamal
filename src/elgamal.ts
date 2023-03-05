@@ -21,11 +21,19 @@ class ElGamalECC {
     return pm;
   }
 }
-
-type CipherText = {
+class Cipher {
   c1: Field;
   c2: Field;
-};
+
+  constructor(c1: Field, c2: Field) {
+    this.c1 = c1;
+    this.c2 = c2;
+  }
+
+  mul(c2: Cipher): Cipher {
+    return new Cipher(this.c1.mul(c2.c1), this.c2.mul(c2.c2));
+  }
+}
 
 class ElGamalFF {
   private static G = Field(
@@ -46,20 +54,17 @@ class ElGamalFF {
     };
   }
 
-  static encrypt(m: Field, h: Field): CipherText {
+  static encrypt(m: Field, h: Field): Cipher {
     let y = Field.random();
 
     let s = modExp(h, y);
     let c1 = modExp(this.G, y);
     let c2 = m.mul(s);
 
-    return {
-      c1,
-      c2,
-    };
+    return new Cipher(c1, c2);
   }
 
-  static decrypt({ c1, c2 }: CipherText, x: Field) {
+  static decrypt({ c1, c2 }: Cipher, x: Field) {
     let s = modExp(c1, x);
     let s_ = s.inv();
 
