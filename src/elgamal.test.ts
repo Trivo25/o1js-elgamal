@@ -50,7 +50,7 @@ describe('ElGamal', () => {
       plain.assertEquals(m1);
     });
 
-    it('Homomorphic should hold', () => {
+    it('Homomorphic properties should hold, m1*m2', () => {
       const { pk, sk } = ElGamalFF.generateKeys();
 
       const m1 = Field(15);
@@ -71,6 +71,33 @@ describe('ElGamal', () => {
 
       const m3 = m1.mul(m2);
       plain3.assertEquals(m3);
+    });
+
+    it('Homomorphic properties should hold, m1*m2*m3', () => {
+      const { pk, sk } = ElGamalFF.generateKeys();
+
+      const m1 = Field(15);
+      const m2 = Field(3);
+      const m3 = Field(2);
+
+      const c1 = ElGamalFF.encrypt(m1, pk);
+      const c2 = ElGamalFF.encrypt(m2, pk);
+      const c3 = ElGamalFF.encrypt(m3, pk);
+
+      const plain1 = ElGamalFF.decrypt(c1, sk);
+      const plain2 = ElGamalFF.decrypt(c2, sk);
+      const plain3 = ElGamalFF.decrypt(c3, sk);
+
+      plain1.assertEquals(m1);
+      plain2.assertEquals(m2);
+      plain3.assertEquals(m3);
+
+      const c4 = c1.mul(c2).mul(c3);
+
+      const plain4 = ElGamalFF.decrypt(c4, sk);
+
+      const m4 = m1.mul(m2).mul(m3);
+      plain4.assertEquals(m4);
     });
   });
 });
