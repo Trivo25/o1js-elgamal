@@ -7,6 +7,7 @@ import {
   shutdown,
 } from 'snarkyjs';
 import { ElGamalECC, ElGamalFF } from './elgamal';
+import { modExp } from './lib';
 
 describe('ElGamal', () => {
   let sk: PrivateKey;
@@ -98,6 +99,27 @@ describe('ElGamal', () => {
 
       const m4 = m1.mul(m2).mul(m3);
       plain4.assertEquals(m4);
+    });
+
+    it('Homomorphic properties should hold, m1*m2', () => {
+      const { pk, sk } = ElGamalFF.generateKeys();
+
+      const m1 = Field(15);
+      const m2 = Field(3);
+
+      const gm1 = modExp(ElGamalFF.G, m1);
+      const gm2 = modExp(ElGamalFF.G, m2);
+
+      const c1 = ElGamalFF.encrypt(gm1, pk);
+      const c2 = ElGamalFF.encrypt(gm2, pk);
+
+      const plain1 = ElGamalFF.decrypt(c1, sk);
+      const plain2 = ElGamalFF.decrypt(c2, sk);
+
+      plain1.assertEquals(gm1);
+      plain2.assertEquals(gm2);
+
+      const m3 = gm1.mul(gm2);
     });
   });
 });
