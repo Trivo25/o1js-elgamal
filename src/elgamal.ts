@@ -1,8 +1,8 @@
-import { Group, PublicKey, Scalar, PrivateKey, Field } from 'snarkyjs';
+import { Group, PublicKey, Scalar, PrivateKey, Field, isReady } from 'snarkyjs';
 import { modExp } from './lib.js';
 
 export { ElGamalECC, ElGamalFF };
-
+await isReady;
 class ElGamalECC {
   private static G = Group.generator;
 
