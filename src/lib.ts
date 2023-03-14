@@ -3,6 +3,9 @@ import { ElGamalFF } from './elgamal.js';
 import fs from 'fs';
 export { modExp, discreteLog, generateLookup, lookUp };
 
+/**
+ * Modular exponentiation `base^exponent`, based on a variant of the [square-and-multiply](https://en.wikipedia.org/wiki/Exponentiation_by_squaring) algorithm.
+ */
 function modExp(base: Field, exponent: Field) {
   let bits = exponent.toBits();
   let n = base;
@@ -10,12 +13,13 @@ function modExp(base: Field, exponent: Field) {
   // this keeps track of when we can start accumulating
   let start = Bool(false);
 
-  // we have to go in reverse order here because .toBits returns bits in LSB representation
+  // we have to go in reverse order here because .toBits is in LSB representation, but we need MSB for the algorithm to function
   for (let i = 254; i >= 0; i--) {
     let bit = bits[i];
 
     // we utilize the square and multiply algorithm
-    // if the current bit = 0,
+    // if the current bit = 0, square and multiply
+    // if bit = 1, just square
     let isOne = start.and(bit.equals(false));
     let isZero = start.and(bit.equals(true));
 
@@ -27,7 +31,7 @@ function modExp(base: Field, exponent: Field) {
       n,
     ]);
 
-    // toggle start to accumulate
+    // toggle start to accumulate; we only start accumulating once we have reached the first 1
     start = Circuit.if(bit.equals(true).and(start.not()), Bool(true), start);
   }
 
