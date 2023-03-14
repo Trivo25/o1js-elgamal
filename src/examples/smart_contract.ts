@@ -102,6 +102,6 @@ tx = await Mina.transaction(sender, () => {
 await tx.prove();
 await tx.sign([senderKey]).send();
 
-console.log(zkapp.result.get().toString());
+zkapp.result.get().assertEquals(m1.mul(m2));
 
 shutdown();
