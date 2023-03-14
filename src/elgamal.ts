@@ -1,7 +1,16 @@
-import { Group, PublicKey, Scalar, PrivateKey, Field, isReady } from 'snarkyjs';
+import {
+  Group,
+  PublicKey,
+  Scalar,
+  PrivateKey,
+  Field,
+  isReady,
+  Struct,
+  Circuit,
+} from 'snarkyjs';
 import { modExp } from './lib.js';
 
-export { ElGamalECC, ElGamalFF };
+export { ElGamalECC, ElGamalFF, Cipher };
 await isReady;
 /**
  * ElGamal over an elliptic curve.
@@ -24,19 +33,16 @@ class ElGamalECC {
     return pm;
   }
 }
-class Cipher {
-  c1: Field;
-  c2: Field;
 
-  constructor(c1: Field, c2: Field) {
-    this.c1 = c1;
-    this.c2 = c2;
-  }
-
+class Cipher extends Struct({
+  c1: Field,
+  c2: Field,
+}) {
   mul(c2: Cipher): Cipher {
-    return new Cipher(this.c1.mul(c2.c1), this.c2.mul(c2.c2));
+    return new Cipher({ c1: this.c1.mul(c2.c1), c2: this.c2.mul(c2.c2) });
   }
 }
+
 /**
  * ElGamal over a finite field.
  */
@@ -52,7 +58,7 @@ class ElGamalFF {
     pk: Field;
     sk: Field;
   } {
-    let x = Field.random();
+    let x = Circuit.witness(Field, () => Field.random());
 
     let h = modExp(this.G, x);
 
@@ -68,13 +74,13 @@ class ElGamalFF {
    * @param h Public key
    */
   static encrypt(m: Field, h: Field): Cipher {
-    let y = Field.random();
+    let y = Circuit.witness(Field, () => Field.random());
 
     let s = modExp(h, y);
     let c1 = modExp(this.G, y);
     let c2 = m.mul(s);
 
-    return new Cipher(c1, c2);
+    return new Cipher({ c1, c2 });
   }
 
   /**
