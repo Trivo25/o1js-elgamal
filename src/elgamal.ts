@@ -7,6 +7,7 @@ import {
   isReady,
   Struct,
   Circuit,
+  Experimental,
 } from 'snarkyjs';
 import { modExp } from './lib.js';
 
@@ -19,7 +20,7 @@ class ElGamalECC {
   private static G = Group.generator;
 
   static encrypt(msg: Group, y: PublicKey) {
-    let k = Scalar.random();
+    let k = Experimental.memoizeWitness(Scalar, Scalar.random);
     return {
       c: this.G.scale(k),
       d: y.toGroup().scale(k).add(msg),
@@ -58,7 +59,7 @@ class ElGamalFF {
     pk: Field;
     sk: Field;
   } {
-    let x = Circuit.witness(Field, () => Field.random());
+    let x = Experimental.memoizeWitness(Field, Field.random);
 
     let h = modExp(this.G, x);
 
@@ -74,7 +75,7 @@ class ElGamalFF {
    * @param h Public key
    */
   static encrypt(m: Field, h: Field): Cipher {
-    let y = Circuit.witness(Field, () => Field.random());
+    let y = Experimental.memoizeWitness(Field, Field.random);
 
     let s = modExp(h, y);
     let c1 = modExp(this.G, y);
