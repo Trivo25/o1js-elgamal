@@ -23,8 +23,8 @@ await isReady;
 class SimpleZkapp extends SmartContract {
   @state(Cipher) c1 = State<Cipher>();
   @state(Cipher) c2 = State<Cipher>();
-
   @state(Cipher) c3 = State<Cipher>();
+
   @state(Field) result = State<Field>();
 
   @method encrypt(m1: Field, m2: Field, pk: Field) {

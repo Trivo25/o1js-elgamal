@@ -1,6 +1,6 @@
 {
   "name": "snarkyjs-elgamal",
-  "version": "0.1.0",
+  "version": "0.0.4",
   "description": "",
   "author": "",
   "license": "Apache-2.0",
@@ -8,7 +8,14 @@
     "mina-zkapp",
     "mina-zk-app",
     "mina-dapp",
-    "zkapp"
+    "zkapp",
+    "elgamal",
+    "homomorphic encryption",
+    "cryptography",
+    "zk",
+    "zkSNARK",
+    "snark",
+    "zero knowledge"
   ],
   "type": "module",
   "main": "build/src/index.js",
