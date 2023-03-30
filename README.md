@@ -10,30 +10,40 @@ Install the package `npm i snarkyjs-elgamal`
 
 Import the ElGamal finite field class as well as the cipher class.
 
-`import { Cipher, ElGamalFF } from 'snarkyjs-elgamal';`
+```ts
+import { Cipher, ElGamalFF } from 'snarkyjs-elgamal';
+```
 
 Generate a secret and public key. The secret key is used to _decrypt_, whereas the public key is used to _encrypt_ a message.
 
-`let { pk, sk } = ElGamalFF.generateKeys();`
+```ts
+let { pk, sk } = ElGamalFF.generateKeys();
+```
 
 Encrypt two messages using the public key.
 
-```js
+```ts
 let c1 = ElGamalFF.encrypt(Field(5), pk)
 let c2 = ElGamalFF.encrypt(Field(5), pk)
 ```
 
 Demonstrate the multiplicative homomorphism over the plain text space by multiplying the ciphers.
 
-`let c3 = c1.mul(c2)`
+```ts
+let c3 = c1.mul(c2)
+```
 
 Decrypt the cipher `c3` using the secret key.
 
-`let plain = ElGamalFF.decrypt(c3, sk);`
+```ts
+let plain = ElGamalFF.decrypt(c3, sk);
+```
 
 Check that the decrypted text equals the expected output of `5 * 5 = 25`.
 
-`plain.assertEquals(Field(5).mul(5));`
+```ts
+plain.assertEquals(Field(5).mul(5));
+```
 
 ### Usage in a Mina smart contract
 
