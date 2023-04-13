@@ -1,9 +1,10 @@
 {
   "name": "snarkyjs-elgamal",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "author": "",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/Trivo25/snarkyjs-elgamal#snarkyjs-elgamal",
   "keywords": [
     "mina-zkapp",
     "mina-zk-app",
