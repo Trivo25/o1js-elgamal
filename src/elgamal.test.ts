@@ -8,7 +8,7 @@ import {
   shutdown,
 } from 'snarkyjs';
 import { ElGamalECC, ElGamalFF } from './elgamal';
-import { lookUp, modExp } from './lib';
+import { generateLookup, lookUp, modExp } from './lib';
 
 describe('ElGamal', () => {
   let sk: PrivateKey;
@@ -121,6 +121,7 @@ describe('ElGamal', () => {
       plain2.assertEquals(gm2);
 
       const plain3 = ElGamalFF.decrypt(c1.mul(c2), sk);
+      generateLookup(30, 'lookup.json');
       let x = lookUp('lookup.json', plain3.toString());
 
       m1.add(m2).assertEquals(x);
