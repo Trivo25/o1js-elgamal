@@ -8,7 +8,7 @@ import {
   Struct,
   Circuit,
   Experimental,
-} from 'snarkyjs';
+} from 'o1js';
 import { modExp } from './lib.js';
 
 export { ElGamalECC, ElGamalFF, Cipher };

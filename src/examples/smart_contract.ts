@@ -13,7 +13,7 @@ import {
   PublicKey,
   Circuit,
   shutdown,
-} from 'snarkyjs';
+} from 'o1js';
 import { Cipher, ElGamalFF } from '../elgamal.js';
 
 const doProofs = true;

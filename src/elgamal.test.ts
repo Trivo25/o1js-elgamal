@@ -6,7 +6,7 @@ import {
   PrivateKey,
   PublicKey,
   shutdown,
-} from 'snarkyjs';
+} from 'o1js';
 import { ElGamalECC, ElGamalFF } from './elgamal';
 import { generateLookup, lookUp, modExp } from './lib';
 

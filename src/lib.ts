@@ -1,4 +1,4 @@
-import { Bool, Circuit, Field } from 'snarkyjs';
+import { Bool, Circuit, Field } from 'o1js';
 import { ElGamalFF } from './elgamal.js';
 import fs from 'fs';
 export { modExp, discreteLog, generateLookup, lookUp };

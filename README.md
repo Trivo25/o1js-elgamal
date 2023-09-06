@@ -1,4 +1,4 @@
-# SnarkyJS Elgamal
+# o1js Elgamal
 
 This repository implements Elgmal, a partial homomorphic encryption scheme originally described by [Taher Elgamal in 1985](https://caislab.kaist.ac.kr/lecture/2010/spring/cs548/basic/B02.pdf). This implementation includes the original version of Elgamal, which is multiplicative homomorphic, as well as slightly modified versions called Exponential Elgamal, which is multiplicative homomorphic over the cipher space, but additive homomorphic over the plain text space, and a version implementing Elgamal on elliptic curves.
 
@@ -6,12 +6,12 @@ This repository implements Elgmal, a partial homomorphic encryption scheme origi
 
 ### Usage
 
-Install the package `npm i snarkyjs-elgamal`
+Install the package `npm i o1js-elgamal`
 
 Import the ElGamal finite field class as well as the cipher class.
 
 ```ts
-import { Cipher, ElGamalFF } from 'snarkyjs-elgamal';
+import { Cipher, ElGamalFF } from 'o1js-elgamal';
 ```
 
 Generate a secret and public key. The secret key is used to _decrypt_, whereas the public key is used to _encrypt_ a message.
@@ -47,7 +47,7 @@ plain.assertEquals(Field(5).mul(5));
 
 ### Usage in a Mina smart contract
 
-Take a look at at the example which uses [ElGamal within a Mina smart contract](https://github.com/Trivo25/snarkyjs-elgamal/tree/main/src/examples).
+Take a look at at the example which uses [ElGamal within a Mina smart contract](https://github.com/Trivo25/o1js-elgamal/tree/main/src/examples).
 
 ## ElGamal over an elliptic curve
 

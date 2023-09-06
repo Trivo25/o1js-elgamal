@@ -1,4 +1,4 @@
-import { isReady, shutdown, Field } from 'snarkyjs';
+import { isReady, shutdown, Field } from 'o1js';
 import { modExp } from './lib';
 
 describe('lib', () => {
