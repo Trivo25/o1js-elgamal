@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-  Field,
-  Group,
-  isReady,
-  PrivateKey,
-  PublicKey,
-  shutdown,
-} from 'o1js';
+import { Field, Group, isReady, PrivateKey, PublicKey, shutdown } from 'o1js';
 import { ElGamalECC, ElGamalFF } from './elgamal';
 import { generateLookup, lookUp, modExp } from './lib';
 
@@ -26,10 +19,7 @@ describe('ElGamal', () => {
 
   describe('ElGamal EC', () => {
     it('Should encrypt and decrypt correctly', () => {
-      const msg = Group.fromJSON({
-        x: 5,
-        y: 5,
-      })!;
+      const msg = Group.generator;
 
       const cipher = ElGamalECC.encrypt(msg, pk);
 
